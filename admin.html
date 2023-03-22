@@ -11,28 +11,54 @@
     <script src="./main.js"></script>
 </head>
 <body>
-    <div id="container">
-        <div id="nav">
-            <div id="home-admin">
-                <div id="home" class="margin-5">Home</div>
-                <div id="admin" class="margin-5">Admin</div>
+    <div id="admin-container">
+        <div id="admin-nav">
+        </div>
+        <div id="admin-wrapper">
+            <div id="admin-sidebar">
+                
             </div>
-            <div id="login-signup">
-                <div id="login" class="margin-5">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
-                        <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
-                    </svg>
-                    <span>Login</span>
+            <div id="admin-main-content">
+                <div id="admin-search-box" class="border">
+                    <input type="text" name="" id="" size="70">
+                    <button type="button" class="btn btn-success">Search</button>
                 </div>
-                <div id="signup" class="margin-5">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
-                        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
-                    </svg>
-                    <span>Sign up</span>
+                <div id="admin-product-crud" class="border">
+                    <div id="admin-add-new">
+                        <button type="button" class="btn btn-info">Add New</button>
+                    </div>
+                    <div id="admin-table">
+                        <table id="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Info</th>
+                                    <th scope="col">Detail</th>
+                                    <th scope="col">Star</th>
+                                    <th scope="col">Image</th>
+                                    <th scope="col">NSX</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">Edit</th>
+                                    <th scope="col">Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <nav aria-label="Page navigation example" style="margin: 20px;">
+                        <ul class="pagination">
+                          <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                          <li class="page-item"><a class="page-link" href="#">1</a></li>
+                          <li class="page-item"><a class="page-link" href="#">2</a></li>
+                          <li class="page-item"><a class="page-link" href="#">3</a></li>
+                          <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                        </ul>
+                      </nav>
                 </div>
             </div>
         </div>
-    </div>
 </body>
 </html>
