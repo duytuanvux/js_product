@@ -8,6 +8,9 @@ body {
 
 }
 
+.btn {
+    margin: 10px;
+}
 #nav, #admin-nav {
     background-color: yellow;
     height: 50px;
@@ -82,11 +85,11 @@ margin-left: 40px;
 #admin-wrapper{
     display: flex;
     margin-top: 50px;
+   
 }
 #admin-sidebar {
 margin-left: 30px;
 width: 200px;
-
 }
 .sidebar-part {
     margin: 10px 0px 10px 0px;
@@ -101,12 +104,13 @@ width: 200px;
 #category {
 
 }
-.label {
+.admin-label {
     font-weight: bold;
     margin: 5px;
+    cursor: pointer;
 }
 .sidebar-dropdown {
-
+    
 }
 #manufacturers {
 
@@ -149,3 +153,22 @@ th, td {
     padding: 10px;
     text-align: left;
   }
+
+.modal {
+    background-color: rgba(0, 0, 0, .4);
+}
+.modal-header {
+    font-weight: bold;
+    font-size: 20px;
+}
+.product-info-input {
+    display: flex;
+    flex-direction: column;
+}
+.product-info-input label {
+    width: 100px;
+    margin: 10px;
+}
+.product-info-input select {
+    width: 200px;
+}
