@@ -111,4 +111,19 @@ $(document).ready(function(){
         </tr>
         `)
     }
+
+    // Lab 6: Xử lý sự kiện onClick vào sidebar
+   // Lab 7: Modal thêm sản phẩm
+   $('#btn-add-new').click(function(){
+    $('#myModal').show()
+   })
+   $('#btn-close-modal').click(function(){
+    $('#myModal').hide()
+   })
+    
+   $(window).on('click', function(e) {
+    if ($(e.target).is('.modal')) {
+        $('.modal').hide();
+      }
+   })
 })
