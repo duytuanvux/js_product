@@ -1,64 +1,104 @@
+function getListItem_index() {
+    var listManufacturer = localStorage.getItem('manufacturer_list') ? JSON.parse(localStorage.getItem('manufacturer_list')) : []
+    $.get('https://641c4706b556e431a86a4a2e.mockapi.io/cellPhone-obj',function(product_item,status) {
+        for ( i = 0; i < product_item.length ; i++){
+            var manufacturer = listManufacturer.find(manu => manu.id === product_item[i].manufacturerName)
+            $('#product-list').append(`
+            <div class="product-item">
+                <div class="product-img">
+                <img src="${product_item[i].imageUrl}" alt="">
+                </div>
+                <div class="product-info">
+                    <div class="item-name margin-5">${product_item[i].name}</div>
+                    <div class="item-manufacture margin-5">${manufacturer ? manufacturer.manufaceturer : ""}</div>
+                    <div class="star-rating margin-5"></div>
+                    <div class="item-price margin-5">${product_item[i].price} đồng</div>
+                </div>
+        </div>   
+            `
+            )
+        }
+    }
+    )
+}
+
+function getListItem_admin() {
+    $('tbody').empty()
+    var listManufacturer = localStorage.getItem('manufacturer_list') ? JSON.parse(localStorage.getItem('manufacturer_list')) : []
+    $.get('https://641c4706b556e431a86a4a2e.mockapi.io/cellPhone-obj',function(product_item,status){
+        for (i = 0; i < product_item.length; i++){
+            var manufacturer = listManufacturer.find(manu => manu.id === product_item[i].manufacturerName)
+            $('tbody').append(`
+            <tr>
+            <th scope="row" class="id">${product_item[i].id}</th>
+            <td class="name">${product_item[i].name}</td>
+            <td class="price">${product_item[i].price}</td>
+            <td class="info">${product_item[i].info}</td>
+            <td class="detail">${product_item[i].detail}</td>
+            <td class="ratingStar">${product_item[i].ratingStar}</td>
+            <td class="imageUrl">${product_item[i].imageUrl}</td>
+            <td class="manufacturerName">${manufacturer ? manufacturer.manufaceturer : ""}</td>
+            <td class="categoryName">${product_item[i].categoryName}</td>
+            <td class=""><button type="button" class="btn btn-warning open-modal" onClick="openEditModal(${product_item[i].id})">Edit</button></td>
+            <td class=""><button type="button" class="btn btn-danger open-modal" onClick="removeItem(${product_item[i].id})">Delete</button></td>
+            </tr>
+            `)
+        }
+    })
+}
+
+function getListManufacturer() {
+    $.get('https://641c4706b556e431a86a4a2e.mockapi.io/manufacturer-obj', function(manufacturer_list,status){
+            for( i = 0; i < manufacturer_list.length; i++) {
+                $('#manufacturer-input').append(`
+                <option value="${manufacturer_list[i].id}" >${manufacturer_list[i].manufaceturer}</option>
+                `)
+            }
+            localStorage.setItem('manufacturer_list', JSON.stringify(manufacturer_list))
+    })
+}
+
+function openEditModal(id) {
+    $.get(`https://641c4706b556e431a86a4a2e.mockapi.io/cellPhone-obj/${id}`, function (product_item, status) {
+        $('#id').val(product_item.id)
+        $('#name').val(product_item.name)
+        $('#price').val(product_item.price)
+        $('#info').val(product_item.info)
+        $('#detail').val(product_item.detail)
+        $('#ratingStar').val(product_item.ratingStar)
+        $('#imageUrl').val(product_item.imageUrl)
+        $('#manufacturerName').val(product_item.manufacturerName)
+        $('#categoryName').val(product_item.categoryName)
+        $('#myModal').show();
+        localStorage.setItem('idEditing', id);
+    })
+
+}
+
+function removeItem(id) {
+    $.ajax({url: `https://641c4706b556e431a86a4a2e.mockapi.io/cellPhone-obj/${id}`, 
+    method: 'DELETE', 
+    success: function (res) {
+        getListItem();
+    }})
+}
+
 $(document).ready(function(){
-
-    var product_item = [
-        {
-            categoryName : "Điện thoại",
-            detail : "ProductDetail",
-            id : 1,
-            imageUrl : "./img/item-img.jpg",
-            info : "ProductInfo",
-            manufactorureName : "SAMSUNG",
-            name : "Samsung Galaxy S22 Ultra 5G",
-            price : "30.990.000đ",
-            ratingStar : 5
-        },
-        {
-            categoryName : "Điện thoại",
-            detail : "ProductDetail",
-            id : 2,
-            imageUrl : "./img/item-img.jpg",
-            info : "ProductInfo",
-            manufactorureName : "Apple",
-            name : "iPhone 14 Pro Max 256Gb Navy Blue",
-            price : "25.990.000đ",
-            ratingStar : 5
-        },
-        {
-            categoryName : "Điện thoại",
-            detail : "ProductDetail",
-            id : 3,
-            imageUrl : "./img/item-img.jpg",
-            info : "ProductInfo",
-            manufactorureName : "OPPO",
-            name : "Oppo Reno8 T5G",
-            price : "10.990.000đ",
-            ratingStar : 4
-        },
-        {
-            categoryName : "Điện thoại",
-            detail : "ProductDetail",
-            id : 4,
-            imageUrl : "./img/item-img.jpg",
-            info : "ProductInfo",
-            manufactorureName : "Xiaomi",
-            name : "Xiaomi Redmi 12C",
-            price : "3.190.000đ",
-            ratingStar :3
-        },
-        {
-            categoryName : "Điện thoại",
-            detail : "ProductDetail",
-            id : 4,
-            imageUrl : "./img/item-img.jpg",
-            info : "ProductInfo",
-            manufactorureName : "Unknown",
-            name : "Vivo Y35",
-            price : "6.290.000đ",
-            ratingStar :3
-        },
-
-
-    ]
+    getListManufacturer();
+    getListItem_admin();
+    getListItem_index();
+    function resetForm() {
+        $('#id').val('')
+        $('#name').val('')
+        $('#price').val('')
+        $('#info').val('')
+        $('#detail').val('')
+        $('#ratingStar').val('')
+        $('#imageUrl').val('')
+        $('#manufacturerName').val('')
+        $('#categoryName').val('')
+    }
+    
     // Load lại thành phần vào trang chủ
     $('#nav').load('components/index/menu.html')
     $('#slide').load('components/index/slide.html')
@@ -71,59 +111,97 @@ $(document).ready(function(){
     // Load lại vào thành phần trang admin
     $('#admin-nav').load('components/admin/admin-menu.html')
     $('#admin-sidebar').load('components/admin/admin-sidebar.html')
-    // Generate các sản phẩm
-    var product_item_length = product_item.length
-    for ( i = 0; i < product_item_length ; i++){
-        $('#product-list').append(`
-        <div class="product-item">
-            <div class="product-img">
-            <img src="${product_item[i].imageUrl}" alt="">
-            </div>
-            <div class="product-info">
-                <div class="item-name margin-5">${product_item[i].name}</div>
-                <div class="item-manufacture margin-5">${product_item[i].manufactorureName}</div>
-                <div class="star-rating margin-5"></div>
-                <div class="item-price margin-5">${product_item[i].price}</div>
-            </div>
-    </div>
-            
-        `
-        )
-    }
+    
+    
+   
 
-    // Generate sản phẩm vào admin
-    for (i = 0; i < product_item_length; i++){
+    // Thêm sản phẩm
+    $('#btn-add-new').click(function () {
+         var id  = $('#id').val()
+         var name  = $('#name').val()
+         var price  = $('#price').val()
+         var info  = $('#info').val()
+         var detail  = $('#detail').val()
+         var ratingStar  = $('#ratingStar').val()
+         var imageUrl  = $('#imageUrl').val()
+         var manufacturerName  = $('#manufacturer-input').val()
+         var categoryName  = $('#categoryName').val()
+            var itemData = {
+            id,
+            name,
+            price,
+            info,
+            detail,
+            ratingStar,
+            imageUrl,
+            manufacturerName,
+            categoryName,
+        }
         
-        $('tbody').append(`
-        <tr>
-        <th scope="row">${product_item[i].id}</th>
-        <td>${product_item[i].name}</td>
-        <td>${product_item[i].price}</td>
-        <td>${product_item[i].info}</td>
-        <td>${product_item[i].detail}</td>
-        <td>${product_item[i].ratingStar}</td>
-        <td>${product_item[i].imageUrl}</td>
-        <td>${product_item[i].manufactorureName}</td>
-        <td>${product_item[i].categoryName}</td>
-        <td><button type="button" class="btn btn-warning">Edit</button></td>
-        <td><button type="button" class="btn btn-danger">Delete</button></td>
+        $('#myModal').hide()
 
-        </tr>
-        `)
-    }
+        getListItem_admin();
+        resetForm();
+    })
+   
+    $('.submit-btn').click(function(){
+        var idEditing = localStorage.getItem('idEditing');
+        var id  = $('#id').val()
+         var name  = $('#name').val()
+         var price  = $('#price').val()
+         var info  = $('#info').val()
+         var detail  = $('#detail').val()
+         var ratingStar  = $('#ratingStar').val()
+         var imageUrl  = $('#imageUrl').val()
+         var manufacturerName  = $('#manufacturer-input').val()
+         var categoryName  = $('#categoryName').val()
+            var itemData = {
+            id,
+            name,
+            price,
+            info,
+            detail,
+            ratingStar,
+            imageUrl,
+            manufacturerName,
+            categoryName,
+        }
+        if(idEditing) {
+            $.ajax({
+                url : `https://641c4706b556e431a86a4a2e.mockapi.io/cellPhone-obj/${idEditing}`,
+                method : 'PUT',
+                data : itemData,
+                success: function (res) {
+                    $('#myModal').hide()
+                    getListItem_admin();
+                    localStorage.removeItem('idEditing');
+                }
+            })
+        }
+        else {
+            $.ajax({
+                url : `https://641c4706b556e431a86a4a2e.mockapi.io/cellPhone-obj`,
+                method : 'POST',
+                data : itemData,
+                success: function(res) {
+                   
+                    $('#myModal').hide()
+                    getListItem_admin();
+                }
+            })
+        }
+    })
 
-    // Lab 6: Xử lý sự kiện onClick vào sidebar
-   // Lab 7: Modal thêm sản phẩm
-   $('#btn-add-new').click(function(){
+   $('.open-modal').click(function(){
     $('#myModal').show()
    })
    $('#btn-close-modal').click(function(){
     $('#myModal').hide()
    })
-    
    $(window).on('click', function(e) {
     if ($(e.target).is('.modal')) {
         $('.modal').hide();
       }
    })
+   
 })
